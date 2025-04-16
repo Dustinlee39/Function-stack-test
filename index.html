@@ -1,236 +1,229 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MBTI Cognitive Function Master Assessment</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MBTI Cognitive Function Quiz</title>
   <style>
-    :root {
-      --primary: #3498db;
-      --background: #f4f9fd;
-      --white: #ffffff;
-      --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-      --text-dark: #2c3e50;
-      --text-light: #7f8c8d;
-    }body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background-color: var(--background);
-  color: var(--text-dark);
-  padding: 20px;
-}
-
-h1, h2, h3 {
-  text-align: center;
-}
-
-h1 {
-  font-size: 2em;
-  margin-bottom: 10px;
-}
-
-h3 {
-  font-weight: normal;
-  color: var(--text-light);
-  margin-top: 0;
-  margin-bottom: 30px;
-}
-
-.question {
-  background: var(--white);
-  padding: 20px;
-  margin-bottom: 25px;
-  border-radius: 14px;
-  box-shadow: var(--card-shadow);
-  transition: transform 0.2s ease;
-}
-
-.question:hover {
-  transform: translateY(-3px);
-}
-
-label {
-  display: block;
-  margin: 8px 0;
-  font-size: 16px;
-}
-
-input[type=radio] {
-  margin-right: 10px;
-  transform: scale(1.2);
-}
-
-#submitBtn {
-  width: 100%;
-  padding: 16px;
-  font-size: 18px;
-  font-weight: bold;
-  background-color: var(--primary);
-  color: var(--white);
-  border: none;
-  border-radius: 12px;
-  box-shadow: var(--card-shadow);
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-#submitBtn:hover {
-  background-color: #2980b9;
-}
-
-#results {
-  margin-top: 40px;
-  background: #e3f7fc;
-  padding: 30px;
-  border-radius: 14px;
-  box-shadow: var(--card-shadow);
-}
-
-.result-item {
-  margin-bottom: 15px;
-  font-size: 20px;
-  font-weight: 600;
-}
-
-.footer-note {
-  text-align: center;
-  margin-top: 40px;
-  font-style: italic;
-  color: var(--text-light);
-}
-
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f7f7f7;
+      color: #333;
+      margin: 0;
+    }
+    h1, h2 {
+      text-align: center;
+    }
+    .quiz-container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .intro {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .disclaimer {
+      color: #666;
+      font-size: 0.9em;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .question {
+      margin-bottom: 20px;
+      background: #fff;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin: 5px 0;
+    }
+    input[type=radio] {
+      margin-right: 8px;
+    }
+    #submitBtn {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    #results {
+      margin-top: 30px;
+      background: #e0f7fa;
+      padding: 20px;
+      border-radius: 10px;
+    }
+    .result-item {
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
   </style>
 </head>
 <body>
-  <h1>MBTI Cognitive Function Master Assessment</h1>
-  <h3>Comprehensive Evaluation – 64 Questions</h3>
-  <p style="text-align:center; max-width: 700px; margin: auto;">Answer each statement honestly using the 1–5 scale below. This assessment provides a nuanced breakdown of your dominant and shadow functions.</p>  <form id="quizForm"></form>
-  <button id="submitBtn">View My Cognitive Profile</button>
-  <div id="results"></div>
-  <p class="footer-note">Powered by MBTI function stack theory. Includes shadow function insight and conscious alignment scoring.</p>  <script>
-    const functions = ["Fi", "Fe", "Ti", "Te", "Ni", "Ne", "Si", "Se"];
 
-    const statements = {
-      Fi: [
-        "I follow my internal moral compass, regardless of external opinion.",
-        "I seek emotional honesty in myself and others.",
-        "I feel most stable when aligned with my values.",
-        "I care more about being authentic than being liked.",
-        "I quietly withdraw when my emotional boundaries are crossed.",
-        "I evaluate experiences based on how deeply they resonate with me.",
-        "I avoid social masks that feel fake.",
-        "I often consider what feels right over what makes sense logically."
-      ],
-      Fe: [
-        "I often adjust my actions to accommodate others' emotions.",
-        "I thrive when group morale is high.",
-        "I naturally prioritize social harmony.",
-        "I feel responsible for others’ emotional well-being.",
-        "I feel energized by helping others feel understood.",
-        "I modify my behavior based on social expectations.",
-        "I prefer emotional openness in relationships.",
-        "I tend to mirror the emotions of those around me."
-      ],
-      Ti: [
-        "I enjoy refining logic until it's airtight.",
-        "I value internal consistency above emotional impact.",
-        "I analyze situations through objective frameworks.",
-        "I break ideas into components to understand them fully.",
-        "I keep mental models to track how things work.",
-        "I feel uneasy when reasoning seems flawed or incomplete.",
-        "I enjoy working alone on intellectually stimulating problems.",
-        "I often debate myself internally to clarify logic."
-      ],
-      Te: [
-        "I act quickly when a system isn't working efficiently.",
-        "I’m comfortable enforcing structure in disorganized situations.",
-        "I evaluate others based on performance and results.",
-        "I make decisions based on measurable outcomes.",
-        "I set clear goals and prioritize practical action.",
-        "I lead with confidence when executing a plan.",
-        "I expect everyone to follow logical rules or protocols.",
-        "I often dismiss emotions if they interfere with productivity."
-      ],
-      Ni: [
-        "I trust abstract insights that emerge without warning.",
-        "I focus on underlying meanings more than surface facts.",
-        "I anticipate patterns before they’re obvious.",
-        "I reflect deeply before arriving at conclusions.",
-        "I connect symbolism across events and dreams.",
-        "I’m more interested in why things happen than how.",
-        "I need time alone to process inner visions.",
-        "I often sense a larger purpose guiding my life."
-      ],
-      Ne: [
-        "I’m constantly generating ideas from one concept.",
-        "I get energized by novelty and experimentation.",
-        "I can argue multiple sides of an issue with ease.",
-        "I quickly link patterns in unrelated things.",
-        "I prefer thinking in terms of 'what if' over 'what is.'",
-        "I enjoy creative challenges that have no defined path.",
-        "I jump from topic to topic when inspired.",
-        "I feel alive when exploring future possibilities."
-      ],
-      Si: [
-        "I feel secure when I follow time-tested procedures.",
-        "I trust my memory to guide current decisions.",
-        "I get comfort from sensory familiarity.",
-        "I often recall minor details from past experiences.",
-        "I dislike being rushed into unfamiliar territory.",
-        "I prefer the familiar over the unpredictable.",
-        "I draw strength from past personal traditions.",
-        "I monitor patterns through consistent sensory input."
-      ],
-      Se: [
-        "I notice what's happening around me in real time.",
-        "I enjoy physical thrills and engaging experiences.",
-        "I act instinctively when under pressure.",
-        "I focus on the here and now more than theory.",
-        "I’m naturally attuned to colors, textures, and sounds.",
-        "I respond quickly to sudden external changes.",
-        "I thrive in physically dynamic environments.",
-        "I take bold action when I feel a surge of momentum."
-      ]
+<div class="quiz-container">
+
+  <h1>MBTI Cognitive Function Quiz</h1>
+
+  <div class="intro">
+    <p>Please rate each statement on a scale from 1 (Strongly Disagree) to 5 (Strongly Agree).
+       There are no right or wrong answers; answer as honestly as you can.</p>
+  </div>
+
+  <div class="disclaimer">
+    <p><em>This quiz is for personal exploration only and is not an official or scientific
+       assessment of personality type.</em></p>
+  </div>
+
+  <form id="quizForm"></form>
+  <button id="submitBtn">Submit</button>
+
+  <div id="results"></div>
+</div>
+
+<script>
+  // Functions in scoring order (do not change unless you also update questions accordingly).
+  const functionOrder = ["Fi", "Fe", "Ti", "Te", "Ni", "Ne", "Si", "Se"];
+
+  // 8 questions per function, 64 total. Each block corresponds to a function above.
+  const questions = [
+    // Fi (8 questions)
+    "I rely on my personal values when deciding what’s right or wrong.",
+    "Once I believe something is correct, I rarely change my stance.",
+    "I often need time alone to understand my feelings.",
+    "I feel uneasy when expected to go against my personal principles.",
+    "I’d rather be truthful about my real self than try to please others.",
+    "I sense inner conflict when a situation clashes with my core beliefs.",
+    "I only share my deepest emotions with people I truly trust.",
+    "I have trouble faking emotions I don’t genuinely feel.",
+
+    // Fe (8 questions)
+    "I adjust how I act or speak to keep a pleasant atmosphere.",
+    "I easily notice how others are feeling.",
+    "I like making people feel valued and included.",
+    "I’m uncomfortable around conflict and try to resolve it quickly.",
+    "I think about others’ emotions before I say something.",
+    "I often provide support or reassurance to those who need it.",
+    "I feel good when people appreciate my efforts to help them.",
+    "I sometimes sacrifice my own comfort so others are happier.",
+
+    // Ti (8 questions)
+    "I analyze information internally before sharing my thoughts.",
+    "I need to fully understand how something works before using it.",
+    "I keep asking 'why' until I’m sure the logic is sound.",
+    "I enjoy breaking down theories or systems to see how they function.",
+    "I look for deeper reasons or root causes in problems and ideas.",
+    "I like organizing knowledge into clear mental structures.",
+    "It can be difficult to put my exact reasoning into words.",
+    "I value accuracy and precise definitions.",
+
+    // Te (8 questions)
+    "I’m focused on practical solutions that produce real results.",
+    "I naturally step in to organize tasks or people when needed.",
+    "I’ll make tough decisions if it helps reach a concrete goal.",
+    "I prioritize efficiency and outcomes over personal feelings.",
+    "I often use to-do lists or schedules to stay on track.",
+    "I get frustrated when discussions stray from the main objective.",
+    "I believe accountability and measurable goals improve performance.",
+    "I trust factual data more than subjective viewpoints.",
+
+    // Ni (8 questions)
+    "I often get intuitive hunches about how events will unfold.",
+    "I’m drawn to exploring the deeper meaning behind everyday things.",
+    "I frequently ask about underlying reasons or motivations.",
+    "Quiet time helps me connect the dots between seemingly unrelated ideas.",
+    "I can sense patterns or trends that others might not see.",
+    "I have sudden insights that can strongly shape my perspective.",
+    "I think about how today’s choices might affect me far into the future.",
+    "I follow an internal sense of direction that can be hard to explain.",
+
+    // Ne (8 questions)
+    "I feel energized by exploring new or unexpected possibilities.",
+    "My thoughts jump between different topics during conversations.",
+    "I enjoy brainstorming multiple potential solutions to a problem.",
+    "I like imagining a variety of possible outcomes.",
+    "I spot connections or parallels that may seem unrelated to others.",
+    "I get bored with routines and prefer variety.",
+    "I thrive in open-ended, creative environments.",
+    "I often see opportunities in what appears messy or unstructured.",
+
+    // Si (8 questions)
+    "I can recall past experiences with vivid detail.",
+    "I trust established methods or traditions to handle tasks.",
+    "I feel more secure with routines I know well.",
+    "I quickly notice small changes in my environment.",
+    "I use what I’ve learned in the past to guide current decisions.",
+    "I prefer a steady, familiar approach instead of rushing into something new.",
+    "I carefully follow steps or rules to avoid making mistakes.",
+    "My physical comfort or discomfort has a strong effect on me.",
+
+    // Se (8 questions)
+    "I’m highly aware of what’s going on around me at the moment.",
+    "I enjoy activities that strongly engage my senses (sights, sounds, tastes).",
+    "I focus mainly on the present rather than the past or future.",
+    "I’m drawn to spontaneous, exciting opportunities.",
+    "I respond quickly when I see a chance to act.",
+    "I take pleasure in noticing things that are visually or audibly interesting.",
+    "Fast-paced settings often energize me.",
+    "I easily pick up on subtle cues in others’ body language or tone."
+  ];
+
+  // Create the questions within the form
+  const form = document.getElementById("quizForm");
+  questions.forEach((questionText, i) => {
+    const div = document.createElement("div");
+    div.className = "question";
+    div.innerHTML = `<strong>Q${i + 1}</strong>: ${questionText}<br>`;
+    for (let j = 1; j <= 5; j++) {
+      div.innerHTML += `
+        <label>
+          <input type="radio" name="q${i}" value="${j}" required> ${j}
+        </label>`;
+    }
+    form.appendChild(div);
+  });
+
+  // Handle form submission
+  document.getElementById("submitBtn").addEventListener("click", function() {
+    const scores = {
+      Fi: 0, Fe: 0, Ti: 0, Te: 0,
+      Ni: 0, Ne: 0, Si: 0, Se: 0
     };
 
-    const form = document.getElementById("quizForm");
-    let count = 1;
-
-    for (const func in statements) {
-      statements[func].forEach((text) => {
-        const div = document.createElement("div");
-        div.className = "question";
-        div.innerHTML = `<strong>Q${count}</strong> (${func}): ${text}<br>`;
-        for (let val = 1; val <= 5; val++) {
-          div.innerHTML += `<label><input type="radio" name="q${count}" value="${val}" required> ${val}</label>`;
-        }
-        div.dataset.function = func;
-        form.appendChild(div);
-        count++;
+    // Tally up the scores for each function
+    for (let i = 0; i < 64; i++) {
+      const radios = document.getElementsByName(`q${i}`);
+      let val = 0;
+      radios.forEach(r => {
+        if (r.checked) val = parseInt(r.value);
       });
+      // Determine which function each question belongs to
+      const func = functionOrder[Math.floor(i / 8)];
+      scores[func] += val;
     }
 
-    document.getElementById("submitBtn").addEventListener("click", function(event) {
-      event.preventDefault();
-      const scores = {
-        Fi: 0, Fe: 0, Ti: 0, Te: 0,
-        Ni: 0, Ne: 0, Si: 0, Se: 0
-      };
+    const resultDiv = document.getElementById("results");
+    resultDiv.innerHTML = "<h2>Your Function Profile</h2>";
 
-      for (let i = 1; i < count; i++) {
-        const radios = document.getElementsByName(`q${i}`);
-        let val = 0;
-        radios.forEach(r => { if (r.checked) val = parseInt(r.value); });
-        const func = form.querySelector(`[name=q${i}]`).closest(".question").dataset.function;
-        scores[func] += val;
-      }
+    // Each function has a maximum possible score of 40 (8 questions × 5 points each)
+    for (let func in scores) {
+      const rawScore = scores[func];
+      const percent = ((rawScore / 40) * 100).toFixed(1);
+      resultDiv.innerHTML += `
+        <div class="result-item">
+          <strong>${func}</strong>: ${rawScore}/40 (${percent}%)
+        </div>`;
+    }
+  });
+</script>
 
-      const resultDiv = document.getElementById("results");
-      resultDiv.innerHTML = `<h2>Your Cognitive Function Profile</h2>`;
-      for (let key in scores) {
-        const percent = ((scores[key] / 40) * 100).toFixed(1);
-        let tag = percent >= 80 ? "(Dominant)" : percent >= 60 ? "(Strong)" : percent >= 40 ? "(Balanced)" : "(Shadow or Weak)";
-        resultDiv.innerHTML += `<div class="result-item"><strong>${key}</strong>: ${scores[key]} / 40 (${percent}%) ${tag}</div>`;
-      }
-    });
-  </script></body>
+</body>
 </html>
